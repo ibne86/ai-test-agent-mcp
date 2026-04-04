@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI Test Agent — Pure MCP Version
 
 This repo is a **pure MCP** starter for an agentic QA demo.
@@ -141,3 +142,6 @@ Example shape to add later:
 A simple explanation:
 
 > I built a pure MCP QA prototype where Claude uses Playwright MCP to explore a local app against an external user story, detect incorrect behavior, summarize the defect, and later create a GitHub issue through GitHub MCP.
+=======
+# ai-test-agent-mcp
+>>>>>>> 778e860b375fe6886bdc339d094b32bdffedaa35
