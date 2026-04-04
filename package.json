@@ -1,0 +1,21 @@
+{
+  "name": "ai-test-agent-mcp-pure-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config app/vite.config.js",
+    "build": "vite build --config app/vite.config.js",
+    "preview": "vite preview --config app/vite.config.js",
+    "install:browsers": "npx playwright install chromium"
+  },
+  "dependencies": {
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "playwright": "latest",
+    "vite": "latest"
+  }
+}
