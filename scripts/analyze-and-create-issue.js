@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config({ override: true });
+
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -93,9 +96,9 @@ ${summary.screenshot_path ? `- Screenshot path: \`${summary.screenshot_path}\`` 
 }
 
 async function createGitHubIssue(summary) {
-  const token = process.env.GITHUB_TOKEN;
-  const owner = process.env.GITHUB_OWNER;
-  const repo = process.env.GITHUB_REPO;
+  const token = (process.env.GITHUB_TOKEN || "").trim();
+  const owner = (process.env.GITHUB_OWNER || "").trim();
+  const repo = (process.env.GITHUB_REPO || "").trim();
 
   if (!token || !owner || !repo) {
     return {
@@ -104,22 +107,39 @@ async function createGitHubIssue(summary) {
     };
   }
 
-  const response = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/issues`,
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${token}`,
-        accept: "application/vnd.github+json",
-        "user-agent": "ai-test-agent-mcp",
-      },
-      body: JSON.stringify({
-        title: summary.title,
-        body: buildGitHubIssueBody(summary),
-      }),
-    }
-  );
+  const repoUrl = `https://api.github.com/repos/${owner}/${repo}`;
+  const issueUrl = `${repoUrl}/issues`;
+
+  const headers = {
+    "content-type": "application/json",
+    authorization: `Bearer ${token}`,
+    accept: "application/vnd.github+json",
+    "user-agent": "ai-test-agent-mcp",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+
+  // Preflight repo access check
+  const repoCheck = await fetch(repoUrl, {
+    method: "GET",
+    headers,
+  });
+
+  if (!repoCheck.ok) {
+    const repoErrorText = await repoCheck.text();
+    return {
+      created: false,
+      reason: `GitHub repo access check failed: ${repoCheck.status} ${repoErrorText}`,
+    };
+  }
+
+  const response = await fetch(issueUrl, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      title: summary.title,
+      body: buildGitHubIssueBody(summary),
+    }),
+  });
 
   if (!response.ok) {
     const errorText = await response.text();
