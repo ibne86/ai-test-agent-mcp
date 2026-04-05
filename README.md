@@ -9,14 +9,6 @@
   <img src="https://img.shields.io/badge/Architecture-Hybrid-blue?style=for-the-badge" />
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Working-success?style=flat-square" />
-  <img src="https://img.shields.io/badge/Test_Generation-Claude_API-informational?style=flat-square" />
-  <img src="https://img.shields.io/badge/Test_Execution-Playwright_CLI-success?style=flat-square" />
-  <img src="https://img.shields.io/badge/Issue_Creation-GitHub_REST_API-lightgrey?style=flat-square" />
-  <img src="https://img.shields.io/badge/GitHub_MCP-Not_Implemented-red?style=flat-square" />
-</p>
-
 ---
 
 ## 📌 Overview
@@ -249,19 +241,3 @@ Use wording like this:
 ## 🧹 Cleanup Note
 
 This repository generates runtime artifacts during execution. Those outputs should generally stay out of version control except for placeholders such as `reports/.gitkeep`.
-
----
-
-## 🏷️ Suggested Badge Row for a Stronger Visual Look
-
-You can keep this section or remove it. If you want a more colorful GitHub-style appearance, use this badge row near the top:
-
-```md
-<p align="center">
-  <img src="https://img.shields.io/badge/Claude-API-blueviolet?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Playwright-CLI-2ea44f?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/GitHub-REST_API-black?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/MCP-Configured-orange?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Type-Hybrid-blue?style=for-the-badge" />
-</p>
-```
