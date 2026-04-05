@@ -1,5 +1,5 @@
-<h1 align="center">🤖 AI Test Agent</h1>
-<p align="center"><b>An AI-assisted Playwright testing pipeline that generates tests from user stories, executes them, analyzes failures, and creates GitHub issues for real bugs.</b></p>
+<h1 align="center">🤖 LLM-Assisted QA Automation Pipeline</h1>
+<p align="center"><b>An AI-assisted pipeline that generates Playwright tests from user stories, executes them, analyzes failures, and creates GitHub issues for valid bugs.</b></p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Claude-API-blueviolet?style=for-the-badge" />
