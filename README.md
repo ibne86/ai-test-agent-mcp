@@ -1,58 +1,84 @@
-<<<<<<< HEAD
-# AI Test Agent — Pure MCP Version
+# AI Test Agent — Hybrid AI Automation Demo with MCP Configuration
 
-This repo is a **pure MCP** starter for an agentic QA demo.
+This repo is a **hybrid AI-driven QA automation demo**.
 
-## Project idea
+It currently uses:
+- **Claude API** to generate Playwright tests
+- **Playwright CLI** to execute the generated test
+- **Claude API** to analyze the failure
+- **GitHub REST API** to create an issue
+- **Playwright MCP** is configured for manual experimentation and future evolution
 
-The workflow is:
+It does **not** currently use:
+- Playwright MCP as the execution engine in the automated pipeline
+- GitHub MCP for issue creation
+
+## Current automated flow
 
 ```text
-External user story
+External user story file
         ↓
-Claude Code reads the story
+scripts/run-agent.js reads the story file
         ↓
-Claude uses Playwright MCP to open and test the local app
+Claude API generates Playwright test code
         ↓
-Claude observes incorrect behavior
+run-agent.js writes generated files
         ↓
-Claude summarizes the defect
+Playwright CLI executes the generated test
         ↓
-Claude uses GitHub MCP to create a bug issue (later step)
+scripts/analyze-and-create-issue.js sends execution results to Claude API
+        ↓
+Claude decides whether the failure is a real product bug
+        ↓
+GitHub REST API creates the issue
         ↓
 reports/ gets updated
-```
 
-## What is in this repo
+Where MCP fits today
 
-- `app/` — tiny React login app with an intentional bug
-- `.mcp.json` — MCP config for Playwright MCP
-- `prompts/` — prompt text you can use inside Claude Code
-- `reports/` — place to save findings and issue links
+This repo contains Playwright MCP configuration in .mcp.json.
 
-## What is intentionally **not** in this repo right now
+That MCP setup is useful for:
 
-These were removed on purpose because they belong to the hybrid version, not the pure MCP version:
+manual exploration with Claude Code
+MCP-assisted UI inspection
+future evolution toward a more agent-native workflow
 
-- generated Playwright `.spec.js` files
-- Playwright test runner orchestration
-- `run-agent.js`
-- `create-issue.js`
-- `playwright.config.js`
+However, the current automated pipeline does not run test execution through Playwright MCP, and it does not create issues through GitHub MCP.
 
-## Intentional bug in the app
+Project idea
+
+The project demonstrates a practical QA automation flow:
+
+read a user story from an external file
+generate a Playwright spec with Claude
+inspect the UI and build a selector map
+generate a page object
+run the test locally
+analyze the result with Claude
+create a GitHub issue if the failure is classified as a real bug
+save execution and analysis artifacts into reports/
+Key files
+scripts/run-agent.js — orchestrates story reading, selector discovery, test generation, Playwright execution, and post-run analysis
+scripts/inspect-ui.js — inspects the running UI and builds reports/selector-map.json
+scripts/analyze-and-create-issue.js — asks Claude to triage the failure and creates a GitHub issue through the GitHub REST API
+.mcp.json — Playwright MCP configuration
+playwright.config.js — Playwright runner configuration
+app/ — local demo application with an intentional login bug
+prompts/ — prompt files for MCP/manual workflows
+reports/ — generated execution and bug-analysis artifacts
+Intentional bug in the app
 
 The login app is purposely wrong.
 
 Current bug:
-- login succeeds when **either** the email **or** the password is correct
 
-Correct behavior should be:
-- login succeeds only when **both** email and password are correct
+login succeeds when either the email or the password is correct
 
-## Folder structure
+Correct behavior:
 
-```text
+login should succeed only when both email and password are correct
+Folder structure
 ai-test-agent-mcp-pure-mcp/
 ├─ .mcp.json
 ├─ .gitignore
@@ -61,87 +87,72 @@ ai-test-agent-mcp-pure-mcp/
 ├─ app/
 │  ├─ index.html
 │  ├─ vite.config.js
-│  └─ src/
-│     ├─ App.jsx
-│     ├─ main.jsx
-│     └─ styles.css
+│  ├─ src/
+│  └─ dist/
 ├─ prompts/
 │  ├─ explore-login-story.md
 │  └─ create-github-issue.md
+├─ scripts/
+│  ├─ run-agent.js
+│  ├─ inspect-ui.js
+│  └─ analyze-and-create-issue.js
+├─ playwright.config.js
+├─ generated-tests/
+├─ pages/
 └─ reports/
-```
-
-## Local app setup
+Setup
 
 Install dependencies:
 
-```bash
 npm install
 npm run install:browsers
-```
 
 Run the app:
 
-```bash
 npm run dev
-```
+External story input
 
-## First learning goal
+The story file can live outside the repo.
 
-Before GitHub MCP, do only this:
+run-agent.js accepts either:
 
-1. start the local app
-2. connect Claude Code to Playwright MCP using `.mcp.json`
-3. ask Claude to open the app on localhost
-4. ask Claude to test the login behavior from your external story
-5. ask Claude to write a report into `reports/`
+--story "path-to-file"
+or STORY_FILE
 
-## Example external story
-
-You can keep the story outside the repo in Notepad, for example:
-
-```text
+Example story content:
 As a valid user, I want to log in with correct email and password so that I can access my account.
+
+Valid email: user@example.com
+Valid password: Password123
 
 Acceptance criteria:
 - valid email + valid password -> login succeeds
 - valid email + wrong password -> login fails
 - wrong email + valid password -> login fails
 - wrong email + wrong password -> login fails
-```
 
-## Later step: GitHub MCP
+Success is indicated by the message: "Login successful. Welcome back."
+Failure is indicated by the message: "Invalid email or password."
+Useful commands
 
-Do **not** set this up first.
+Run the main agent flow:
 
-Once Playwright MCP is working, add GitHub MCP to `.mcp.json` so Claude can create an issue after it confirms a bug.
+npm run agent:run -- --story "C:\path\to\your\story.txt"
 
-Example shape to add later:
+Run UI inspection only:
 
-```json
-{
-  "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": ["@playwright/mcp@latest"]
-    },
-    "github": {
-      "command": "<path-to-github-mcp-server>",
-      "args": ["stdio"],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_GITHUB_PAT>",
-        "GITHUB_TOOLSETS": "issues,repos"
-      }
-    }
-  }
-}
-```
+npm run agent:inspect -- --url "http://127.0.0.1:4173" --out ".\reports\selector-map.json"
 
-## How to explain this in an interview
+Run analysis/issue creation only:
 
-A simple explanation:
-
-> I built a pure MCP QA prototype where Claude uses Playwright MCP to explore a local app against an external user story, detect incorrect behavior, summarize the defect, and later create a GitHub issue through GitHub MCP.
-=======
-# ai-test-agent-mcp
->>>>>>> 778e860b375fe6886bdc339d094b32bdffedaa35
+npm run agent:analyze -- --story "C:\path\to\your\story.txt" --report ".\reports\execution-result.json"
+Current implementation status
+External story input: Yes
+Claude API for test generation: Yes
+Playwright CLI execution: Yes
+Claude API for failure analysis: Yes
+GitHub issue creation via REST API: Yes
+Playwright MCP configured: Yes
+Playwright MCP used in automated pipeline: No
+GitHub MCP configured: No
+GitHub MCP used in automated pipeline: No
