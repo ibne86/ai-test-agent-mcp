@@ -230,14 +230,6 @@ npm run agent:analyze -- --story "C:\path\to\your\story.txt" --report ".\reports
 
 ---
 
-## 🧠 Interview Positioning
-
-Use wording like this:
-
-> I built a hybrid AI-driven QA automation demo. The current implementation uses Claude API for test generation and failure triage, Playwright CLI for execution, and GitHub REST API for issue creation. I also configured Playwright MCP as a stepping stone toward a more agent-native workflow.
-
----
-
 ## 🧹 Cleanup Note
 
 This repository generates runtime artifacts during execution. Those outputs should generally stay out of version control except for placeholders such as `reports/.gitkeep`.
