@@ -1,33 +1,28 @@
+```md
 <h1 align="center">🤖 AI Test Agent</h1>
-<p align="center"><b>Hybrid AI Automation Demo with MCP Configuration</b></p>
+<p align="center"><b>AI-Driven Playwright QA Automation Demo</b></p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Claude-API-blueviolet?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Playwright-CLI-2ea44f?style=for-the-badge" />
   <img src="https://img.shields.io/badge/GitHub-REST_API-black?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Playwright-MCP_Configured-orange?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Architecture-Hybrid-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Architecture-Claude_%2B_Playwright_%2B_GitHub-blue?style=for-the-badge" />
 </p>
 
 ---
 
 ## 📌 Overview
 
-This repository is a **hybrid AI-driven QA automation demo**.
+This repository is an **AI-driven QA automation demo**.
 
-It currently combines:
+It uses:
 
-- **Claude API** for Playwright test generation
-- **Playwright CLI** for executing the generated test
-- **Claude API** for failure analysis
-- **GitHub REST API** for issue creation
-- **Playwright MCP configuration** for manual experimentation and future evolution
+- **Claude API** to generate Playwright test code
+- **Playwright CLI** to execute the generated test
+- **Claude API** to analyze failures
+- **GitHub REST API** to create issues for real bugs
 
-> [!IMPORTANT]
-> This project is **not a pure MCP pipeline**.
->  
-> The current automated flow uses **Claude API + Playwright CLI + GitHub REST API**.  
-> Playwright MCP is configured, but it is **not** the execution engine in the automated pipeline.
+This project is **not MCP-based**.
 
 ---
 
@@ -60,12 +55,11 @@ reports/ gets updated
 ## 🎯 What This Project Demonstrates
 
 - Reading a user story from an **external file**
-- Generating a Playwright test with AI
 - Inspecting the UI and building selector context
-- Generating supporting files
-- Running the test locally
+- Generating a Playwright test with AI
+- Running the test locally with Playwright CLI
 - Analyzing failures with AI
-- Creating a GitHub issue for real bugs
+- Creating a GitHub issue for confirmed bugs
 - Saving outputs into `reports/`
 
 ---
@@ -79,34 +73,6 @@ reports/ gets updated
 | Playwright CLI execution | ✅ Yes |
 | Claude API for failure analysis | ✅ Yes |
 | GitHub issue creation via REST API | ✅ Yes |
-| Playwright MCP configured | ✅ Yes |
-| Playwright MCP used in automated pipeline | ❌ No |
-| GitHub MCP configured | ❌ No |
-| GitHub MCP used in automated pipeline | ❌ No |
-
----
-
-## 🧩 Where MCP Fits Today
-
-This repository contains **Playwright MCP configuration** in `.mcp.json`.
-
-### MCP is currently useful for:
-- manual exploration with Claude Code
-- MCP-assisted UI inspection
-- future evolution toward a more agent-native workflow
-
-### MCP is not currently used for:
-- automated Playwright test execution
-- automated GitHub issue creation
-
-> [!NOTE]
-> A more accurate description of this project is:
->
-> **Hybrid AI QA automation demo with MCP configuration**
->
-> not
->
-> **Pure MCP implementation**
 
 ---
 
@@ -117,10 +83,9 @@ This repository contains **Playwright MCP configuration** in `.mcp.json`.
 | `scripts/run-agent.js` | Orchestrates story reading, selector discovery, test generation, Playwright execution, and post-run analysis |
 | `scripts/inspect-ui.js` | Inspects the running UI and builds `reports/selector-map.json` |
 | `scripts/analyze-and-create-issue.js` | Sends execution results to Claude and creates a GitHub issue through REST API |
-| `.mcp.json` | Playwright MCP configuration |
 | `playwright.config.js` | Playwright runner configuration |
 | `app/` | Demo application with an intentional login bug |
-| `prompts/` | Prompt files for MCP/manual workflows |
+| `prompts/` | Reference prompt files for the agent flow |
 | `reports/` | Execution and bug-analysis artifacts |
 
 ---
@@ -140,9 +105,7 @@ The login app is purposely incorrect.
 ## 📁 Folder Structure
 
 ```text
-ai-test-agent-mcp/
-├─ .claude/
-├─ .playwright-mcp/
+ai-test-agent/
 ├─ app/
 ├─ generated-tests/
 ├─ pages/
@@ -150,7 +113,6 @@ ai-test-agent-mcp/
 ├─ reports/
 ├─ scripts/
 ├─ .gitignore
-├─ .mcp.json
 ├─ package.json
 ├─ package-lock.json
 ├─ playwright.config.js
@@ -233,3 +195,6 @@ npm run agent:analyze -- --story "C:\path\to\your\story.txt" --report ".\reports
 ## 🧹 Cleanup Note
 
 This repository generates runtime artifacts during execution. Those outputs should generally stay out of version control except for placeholders such as `reports/.gitkeep`.
+```
+
+---

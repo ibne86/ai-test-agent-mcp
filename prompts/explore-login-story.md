@@ -1,7 +1,7 @@
-Use Playwright MCP to test the local login app against the user story.
+Use the login app and the provided user story to validate the expected behavior
 
 Input story source:
-- Use the external story text I provide in chat or paste into Claude Code.
+- Use the external story text provided to the automation flow.
 
 Goal:
 - Open the local app.
@@ -11,7 +11,7 @@ Goal:
 - If you find a bug, summarize it clearly.
 
 Rules:
-- Be explicit about which scenario you are testing.
+- Be explicit about which scenario is being tested.
 - Keep notes on expected result vs actual result.
 - If the app behaves incorrectly, prepare a concise bug title and bug body.
-- Save a final report in the reports folder.
+- Save the final report in the reports folder.

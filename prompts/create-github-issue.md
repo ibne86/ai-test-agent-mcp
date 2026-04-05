@@ -1,4 +1,4 @@
-If a real bug is confirmed, use Playwright MCP to capture a screenshot and save it locally.
+If a real bug is confirmed, prepare the issue details using the available execution artifacts.
 
 Issue format:
 
@@ -9,8 +9,8 @@ Issue format:
 - Expected result
 - Actual result
 - Attachment
-  - Screenshot if available
+  - Screenshot path if available
 
-After creating the issue, update the local report with:
+After issue creation, update the local report with:
 - issue URL or issue number
 - screenshot path
